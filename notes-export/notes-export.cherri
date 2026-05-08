@@ -1,0 +1,38 @@
+#define color orange
+
+#include 'actions/calendar'
+#include 'actions/scripting'
+#include 'actions/text'
+#include 'actions/documents'
+
+action 'filter.notes' findNotes() {
+	"WFContentItemInputParameter": "Library",
+	"WFContentItemLimitEnabled": false,
+	"WFContentItemSortProperty": "Creation Date",
+	"WFContentItemSortOrder": "Latest First"
+}
+
+action 'ask' promptSingleLine(text prompt: 'WFAskActionPrompt') {
+	"WFInputType": "Text",
+	"WFAllowsMultilineText": false
+}
+
+const notes = findNotes()
+
+const repeatResults = for Note in notes {
+	text("{Note}\n\nCreation date: {Note['Creation Date']}\nModified date: {Note['Last Modified Date']}\n\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n\n")
+}
+
+const combinedText = joinText(repeatResults, "")
+
+const today = currentDate()
+const dateStamp = formatDate(today, "Custom", "yyyyMMdd")
+const exportName = promptSingleLine("Export name")
+@baseName = "notes-export-{exportName}-{dateStamp}"
+
+const formats = list("txt", "md")
+const format = chooseFromList(formats, "Save as")
+@fileName = "{@baseName}.{format}"
+
+const exportFile = setName(combinedText, @fileName, true)
+saveFilePrompt(exportFile)
