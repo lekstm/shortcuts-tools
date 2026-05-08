@@ -1,5 +1,3 @@
-/* meow IP */
-
 #define name meow IP
 #define color blue
 #define glyph cat

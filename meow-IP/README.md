@@ -1,4 +1,4 @@
-# meow IP Shortcut
+# "meow IP" shortcut
 
 Instructions for building a `.shortcut` file from `meow-ip.cherri`.
 
