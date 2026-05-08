@@ -1,0 +1,20 @@
+/* meow IP */
+
+#define name meow IP
+#define color blue
+#define glyph cat
+
+#include 'actions/calendar'
+#include 'actions/sharing'
+#include 'actions/scripting'
+#include 'actions/web'
+
+const ip = downloadURL("https://api.ipify.org")
+const now = currentDate()
+const clipboardExpiresAt = adjustDate(now, "Add", qty(10, "min"))
+const catFaces = list("😺💬", "😸💬", "😹💬", "😻💬", "😼💬", "😽💬", "🙀💬")
+const catFace = getRandomItem(catFaces)
+
+showNotification("
+{catFace}   {ip}")
+setClipboard(ip, false, clipboardExpiresAt)
